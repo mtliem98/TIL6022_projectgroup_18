@@ -1,0 +1,32 @@
+﻿Station;Travelers_per_day;Getting_on_off;Switchers;Direction_to;Travelers_to
+Groningen;16064;16064;0;Groningen Europapark;8000
+Groningen;16064;16064;0;Groningen Noord;n/a
+Groningen;16064;16064;0;Zuidhorn;n/a
+Groningen Europapark;1705;1705;0;Haren;9000
+Groningen Europapark;1705;1705;0;Groningen;8000
+Groningen Europapark;1705;1705;0;Kropswolde;n/a
+Haren;1104;1104;0;Groningen Europapark;8000
+Haren;1104;1104;0;Assen;9000
+Assen;7548;7440;108;Haren;8000
+Assen;7548;7440;108;Beilen;9000
+Beilen;1824;1824;0;Assen;8000
+Beilen;1824;1824;0;Hoogeveen;9000
+Hoogeveen;3782;3782;0;Beilen;8000
+Hoogeveen;3782;3782;0;Meppel;9000
+Meppel;6386;5768;618;Zwolle;14000
+Meppel;6386;5768;618;Hoogeveen;9000
+Meppel;6386;5768;618;Steenwijk;5000
+Leeuwarden;7705;7705;0;Grou-Jirnsum;4000
+Leeuwarden;7705;7705;0;Leeuwarden Camminghaburen;n/a
+Leeuwarden;7705;7705;0;Mantgum;n/a
+Leeuwarden;7705;7705;0;Deinum;n/a
+Grou-Jirnsum;727;727;0;Leeuwarden;4000
+Grou-Jirnsum;727;727;0;Akkrum;4000
+Akkrum;769;769;0;Grou-Jirnsum;4000
+Akkrum;769;769;0;Heerenveen;4000
+Heerenveen;5001;4970;31;Akkrum;4000
+Heerenveen;5001;4970;31;Wolvega;4000
+Wolvega;1394;1394;0;Steenwijk;4000
+Wolvega;1394;1394;0;Heerenveen;4000
+Steenwijk;3007;2958;49;Meppel;5000
+Steenwijk;3007;2958;49;Wolvega;4000
