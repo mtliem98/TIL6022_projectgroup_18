@@ -30,3 +30,91 @@ Wolvega;1394;1394;0;Steenwijk;4000
 Wolvega;1394;1394;0;Heerenveen;4000
 Steenwijk;3007;2958;49;Meppel;5000
 Steenwijk;3007;2958;49;Wolvega;4000
+Zwolle;42976;33802;9174;Meppel;14000
+Zwolle;42976;33802;9174;Wezep;10000
+Zwolle;42976;33802;9174;Kampen Zuid;8000
+Zwolle;42976;33802;9174;Wijhe;4000
+Zwolle;42976;33802;9174;Heino;n/a
+Zwolle;42976;33802;9174;Dalfsen;n/a
+Kampen Zuid;1618;1618;0;Zwolle;8000
+Kampen Zuid;1618;1618;0;Dronten;8000
+Dronten;2931;2931;0;Lelystad Centrum;8000
+Dronten;2931;2931;0;Kampen Zuid;8000
+Lelystad Centrum;12592;11076;1516;Almere Oostvaarders;11000
+Lelystad Centrum;12592;11076;1516;Dronten;8000
+Lelystad Centrum;12592;11076;1516;Lelystad Opstel;n/a
+Almere Oostvaarders;3478;3478;0;Lelystad Centrum;11000
+Almere Oostvaarders;3478;3478;0;Almere Buiten;12000
+Almere Buiten;4679;4574;105;Almere Oostvaarders;12000
+Almere Buiten;4679;4574;105;Almere Parkwijk;14000
+Almere Parkwijk;1834;1834;0;Almere Buiten;14000
+Almere Parkwijk;1834;1834;0;Almere Centrum;14000
+Almere Centrum;26979;20873;6106;Almere Parkwijk;14000
+Almere Centrum;26979;20873;6106;Almere Muziekwijk;21000
+Almere Muziekwijk;4217;4215;2;Almere Centrum;21000
+Almere Muziekwijk;4217;4215;2;Almere Poort;22000
+Almere Poort;5925;5428;497;Almere Muziekwijk;22000
+Almere Poort;5925;5428;497;Muiderberg aansluiting;23000
+Muiderberg aansluiting;n/a;n/a;n/a;Almere Poort;23000
+Muiderberg aansluiting;n/a;n/a;n/a;Weesp;20000
+Weesp;13907;8985;4922;Diemen Zuid;21000
+Weesp;13907;8985;4922;Diemen;20000
+Weesp;13907;8985;4922;Muiderberg aansluiting;20000
+Weesp;13907;8985;4922;Naarden-Bussum aansluiting;19000
+Naarden-Bussum aansluiting;n/a;n/a;n/a;Weesp;19000
+Naarden-Bussum aansluiting;n/a;n/a;n/a;Naarden-Bussum;22000
+Naarden-Bussum;8815;8490;325;Naarden-Bussum aansluiting;21000
+Naarden-Bussum;8815;8490;325;Bussum Zuid;20000
+Bussum Zuid;3684;3684;0;Hilversum Media Park;20000
+Bussum Zuid;3684;3684;0;Naarden-Bussum;20000
+Hilversum Media Park;3875;3875;0;Hilversum;20000
+Hilversum Media Park;3875;3875;0;Bussum Zuid;20000
+Hilversum;24941;21521;3420;Hilversum Media Park;20000
+Hilversum;24941;21521;3420;Baarn;11000
+Hilversum;24941;21521;3420;Hilversum Sportpark;8000
+Baarn;4150;3967;183;Hilversum;11000
+Baarn;4150;3967;183;Amersfoort Centraal;10000
+Baarn;4150;3967;183;Soestdijk;1000
+Amersfoort Centraal;43123;33180;9943;Den Dolder;21000
+Amersfoort Centraal;43123;33180;9943;Amersfoort Schothorst;14000
+Amersfoort Centraal;43123;33180;9943;Baarn;10000
+Amersfoort Centraal;43123;33180;9943;Hoevelaken;10000
+Amersfoort Centraal;43123;33180;9943;Bokkeduinen;n/a
+Amersfoort Schothorst;5221;5008;213;Amersfoort Centraal;14000
+Amersfoort Schothorst;5221;5008;213;Amersfoort Vathorst;13000
+Amersfoort Vathorst;3305;3234;71;Amersfoort Schothorst;12000
+Amersfoort Vathorst;3305;3234;71;Nijkerk;11000
+Nijkerk;2881;2881;0;Putten;11000
+Nijkerk;2881;2881;0;Amersfoort Vathorst;11000
+Putten;1573;1573;0;Nijkerk;11000
+Putten;1573;1573;0;Ermelo;11000
+Ermelo;2225;2225;0;Putten;10000
+Ermelo;2225;2225;0;Harderwijk;10000
+Harderwijk;4840;4840;0;Ermelo;10000
+Harderwijk;4840;4840;0;Nunspeet;10000
+Nunspeet;2255;2255;0;Harderwijk;10000
+Nunspeet;2255;2255;0;Harde ‘t;9000
+Harde ‘t;1169;1169;0;Wezep;10000
+Harde ‘t;1169;1169;0;Nunspeet;9000
+Wezep;907;907;0;Zwolle;10000
+Wezep;907;907;0;Harde ‘t;9000
+Wijhe;967;967;0;Olst;4000
+Wijhe;967;967;0;Zwolle;4000
+Olst;1097;1097;0;Wijhe;4000
+Olst;1097;1097;0;Deventer;4000
+Deventer;20355;17302;3053;Twello;9000
+Deventer;20355;17302;3053;Deventer Colmschate;7000
+Deventer;20355;17302;3053;Zutphen;5000
+Deventer;20355;17302;3053;Olst;4000
+Deventer Colmschate;1153;1153;0;Deventer;7000
+Deventer Colmschate;1153;1153;0;Holten;7000
+Holten;1118;1118;0;Rijssen;7000
+Holten;1118;1118;0;Deventer Colmschate;7000
+Rijssen;2124;2124;0;Wierden;7000
+Rijssen;2124;2124;0;Holten;7000
+Wierden;986;986;0;Rijssen;7000
+Wierden;986;986;0;Almelo;6000
+Wierden;986;986;0;Nijverdal;n/a
+Almelo;6544;6289;255;Almelo de Riet;6000
+Almelo;6544;6289;255;Wierden;6000
+Almelo;6544;6289;255;Vriezenveen;n/a
