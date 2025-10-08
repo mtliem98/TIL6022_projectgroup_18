@@ -118,3 +118,84 @@ Wierden;986;986;0;Nijverdal;n/a
 Almelo;6544;6289;255;Almelo de Riet;6000
 Almelo;6544;6289;255;Wierden;6000
 Almelo;6544;6289;255;Vriezenveen;n/a
+Twello;1154;1154;0;Apeldoorn Osseveld;9000
+Twello;1154;1154;0;Deventer;9000
+Apeldoorn Osseveld;1104;1104;0;Apeldoorn;9000
+Apeldoorn Osseveld;1104;1104;0;Twello;9000
+Apeldoorn;12590;11628;962;Hoevelaken;10000
+Apeldoorn;12590;11628;962;Apeldoorn Osseveld;9000
+Apeldoorn;12590;11628;962;Apeldoorn De Maten;n/a
+Hoevelaken;n/a;n/a;n/a;Apeldoorn;n/a
+Hoevelaken;n/a;n/a;n/a;Barneveld Noord;n/a
+Hoevelaken;n/a;n/a;n/a;Amersfoort Centraal;n/a
+Den Dolder;1740;1732;8;Bilthoven;23000
+Den Dolder;1740;1732;8;Amersfoort Centraal;22000
+Den Dolder;1740;1732;8;Soest Zuid;2000
+Soest Zuid;1694;1694;0;Den Dolder;1000
+Soest Zuid;1694;1694;0;Soest;1000
+Soest;212;212;0;Soest Zuid;1000
+Soest;212;212;0;Soestdijk;1000
+Soestdijk;670;670;0;Soest;1000
+Soestdijk;670;670;0;Baarn;1000
+Bilthoven;4127;4127;0;Den Dolder;24000
+Bilthoven;4127;4127;0;Utrecht Overvecht;24000
+Utrecht Overvecht;7306;7145;161;Utrecht Centraal;33000
+Utrecht Overvecht;7306;7145;161;Bilthoven;25000
+Utrecht Overvecht;7306;7145;161;Hollandsche Rading;8000
+Hollandsche Rading;907;907;0;Utrecht Overvecht;9000
+Hollandsche Rading;907;907;0;Hilversum Sportpark;8000
+Hilversum Sportpark;5797;5794;3;Hollandsche Rading;8000
+Hilversum Sportpark;5797;5794;3;Hilversum;8000
+Utrecht Centraal;229788;175179;54609;Utrecht Vaartsche Rijn;58000
+Utrecht Centraal;229788;175179;54609;Utrecht Zuilen;50000
+Utrecht Centraal;229788;175179;54609;Utrecht Leidsche Rijn;39000
+Utrecht Centraal;229788;175179;54609;Utrecht Overvecht;34000
+Utrecht Zuilen;2431;2431;0;Utrecht Centraal;51000
+Utrecht Zuilen;2431;2431;0;Maarssen;50000
+Maarssen;3926;3926;0;Utrecht Zuilen;51000
+Maarssen;3926;3926;0;Breukelen;49000
+Breukelen;5828;5317;511;Abcoude;52000
+Breukelen;5828;5317;511;Maarssen;50000
+Breukelen;5828;5317;511;Woerden;4000
+Abcoude;1899;1899;0;Amsterdam Holendrecht;52000
+Abcoude;1899;1899;0;Breukelen;53000
+Amsterdam Holendrecht;4177;4177;0;Amsterdam Bijlmer ArenA;53000
+Amsterdam Holendrecht;4177;4177;0;Abcoude;54000
+Amsterdam Bijlmer ArenA;25873;23751;2122;Amsterdam Holendrecht;54000
+Amsterdam Bijlmer ArenA;25873;23751;2122;Duivendrecht;34000
+Amsterdam Bijlmer ArenA;25873;23751;2122;Duivendrecht aansluiting west;17000
+Duivendrecht;9459;7604;1855;Amsterdam Amstel;34000
+Duivendrecht;9459;7604;1855;Amsterdam Bijlmer ArenA;36000
+Duivendrecht;9459;7604;1855;Diemen Zuid;21000
+Duivendrecht;9459;7604;1855;Duivendrecht aansluiting west;20000
+Diemen Zuid;2965;2965;0;Duivendrecht;22000
+Diemen Zuid;2965;2965;0;Weesp;21000
+Duivendrecht aansluiting west;n/a;n/a;n/a;Duivendrecht;19000
+Duivendrecht aansluiting west;n/a;n/a;n/a;Amsterdam Bijlmer ArenA;17000
+Duivendrecht aansluiting west;n/a;n/a;n/a;Amsterdam RAI;37000
+Amsterdam RAI;4103;4103;0;Duivendrecht aansluiting west;37000
+Amsterdam RAI;4103;4103;0;Amsterdam Zuid;38000
+Amsterdam Zuid;63365;59214;4151;Amsterdam RAI;37000
+Amsterdam Zuid;63365;59214;4151;Amsterdam Riekerpolder;32000
+Amsterdam Riekerpolder;n/a;n/a;n/a;Amsterdam Lelylaan;29000
+Amsterdam Riekerpolder;n/a;n/a;n/a;Amsterdam Zuid;33000
+Amsterdam Riekerpolder;n/a;n/a;n/a;Schiphol Airport;60000
+Amsterdam Lelylaan;11292;11290;2;Amsterdam Riekerpolder;28000
+Amsterdam Lelylaan;11292;11290;2;Amsterdam Sloterdijk;26000
+Amsterdam Sloterdijk;57576;48829;8747;Amsterdam Centraal;69000
+Amsterdam Sloterdijk;57576;48829;8747;Zaandam;35000
+Amsterdam Sloterdijk;57576;48829;8747;Halfweg-Zwanenburg;27000
+Amsterdam Sloterdijk;57576;48829;8747;Amsterdam Lelylaan;25000
+Amsterdam Centraal;171272;159833;11439;Amsterdam Sloterdijk;68000
+Amsterdam Centraal;171272;159833;11439;Amsterdam Muiderpoort;47000
+Amsterdam Centraal;171272;159833;11439;Watergraafsmeer;n/a
+Amsterdam Centraal;171272;159833;11439;Amsterdam Lijnwerkplaats Zuid;n/a
+Amsterdam Muiderpoort;12515;12295;220;Amsterdam Centraal;45000
+Amsterdam Muiderpoort;12515;12295;220;Amsterdam Amstel;28000
+Amsterdam Muiderpoort;12515;12295;220;Amsterdam Science Park;21000
+Amsterdam Amstel;26593;25208;1385;Duivendrecht;36000
+Amsterdam Amstel;26593;25208;1385;Amsterdam Muiderpoort;27000
+Amsterdam Science Park;4164;4164;0;Amsterdam Muiderpoort;21000
+Amsterdam Science Park;4164;4164;0;Diemen;20000
+Diemen;2431;2431;0;Amsterdam Science Park;20000
+Diemen;2431;2431;0;Weesp;20000
