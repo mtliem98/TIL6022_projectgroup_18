@@ -24,7 +24,6 @@ class Railmap:
         total_lengths = np.full(self.map.shape, np.inf)
         total_lengths[start_id, start_id] = 0
         to_do = [start_id]
-        print(to_do)
         while (len(to_do)>0 and to_do[0]!=destination_id): #check if you have nodes to check or you're checking the destination node, in which case you already have the shortest path
             for i, value in enumerate(self.map[to_do[0]]):
                 if value+min(total_lengths[:,to_do[0]]) < min(total_lengths[:,i]):#When you find a shorter route to a node, insert it in the matrix
@@ -42,7 +41,6 @@ class Railmap:
                         elif to_do[j] == i: #no double values. When already have the node in the to do list and it's earlier, don't try to add it in the list again
                             break
             to_do.pop(0)
-            print(to_do)
 
         #determine the route based on the lengths matrix
         route = [destination_id]
@@ -54,9 +52,40 @@ class Railmap:
             route.insert(0,int(prev_node))
 
         return route, total_cost
+    
+    def get_shortest_path_matrix(self)->np.ndarray:
+        """
+        This function applies the shortest path function to all routes on the map
+        """
+        matrix = np.zeros(self.map.shape)
+        for start in range(len(matrix)):
+            for end in range(len(matrix)):
+                _, matrix[start, end] = self.find_shortest_path_by_id(start, end)
 
+        return matrix
+    
+    def determine_O_D(self):
+        """
+        Uses a gravitational model to determine the OD-matrix
+        """
+        p = [500,300,700,800,1500]
+        q = [500,300,700,800,1500]
+        shortest_paths = np.divide(1, self.get_shortest_path_matrix())
+
+        od = np.zeros(self.map.shape)
+        for start in range(len(od)):
+            for end in range(len(od)):
+                start_paths = shortest_paths[start]
+                start_paths[start] = 0
+                path_sum = sum(q[j]*start_paths[j] for j in range(len(od)))
+                od[start, end] = (q[end]*shortest_paths[start, end])/(path_sum)*p[start]
+
+        return od  
 
 if __name__ == "__main__":
     rail = Railmap([0, 1, 2, 3, 4],[[0,2,3],[0,1,2],[2,3,2], [1,4,9], [1,3,100], [2,4,1], [4,3,1], [0,4,1]])
     route, cost = rail.find_shortest_path_by_id(1,3)
     print(f"route: {route} with cost: {cost}")
+
+    od = rail.determine_O_D()
+    print(od)
