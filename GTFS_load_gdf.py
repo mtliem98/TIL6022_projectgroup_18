@@ -39,6 +39,24 @@ def load_gdf(path, file):
     return _gdf
 # gdf.plot()
 
+def get_nodes(path,data):               #path to station_data.csv, data=gdf based on stops.txt
+    print("get stations nodes")
+    file = pd.read_csv(path,sep=";")        #remove depending on seperator';'
+    _df = file.copy()['Station']            #_df = the station_data.dsv
+    print(_df)                              #_nodes = gdf filtered with only relevant nodes
+    _df = _df.drop_duplicates()
+    #node part
+    node_list = list(_df)
+    print(len(node_list))
+    _node = data.loc[data['stop_name'].isin(node_list)]
+    # _node.plot()                        #comment if it works
+    print("Nodes loaded")
+    ## Note!!! for some reason we have less nodes in our returned dataframe
+    ## Note2!! We have to create a combined
+    #create edges
+
+    return _node
+
 # %% [markdown]
 # ### Load GTFS Geometric data
 # store it into a Geopandas Dataframe
