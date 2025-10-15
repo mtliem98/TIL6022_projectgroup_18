@@ -26,6 +26,24 @@ import matplotlib.lines as mlines
 # Loading a gtfs data into a gdf
 
 # %%
+def get_distance(data, origin, destination):
+    A=(data[origin]["stop_lat"],data[origin]["stop_lon"])
+    B=(data[destination]["stop_lat"],data[destination]["stop_lon"])
+    return geopy.distance.geodesic(A, B).m
+
+def interactable_map(data, savepath):
+    #change these for size visual
+    dim_w = 600
+    dim_h = 500
+    data = data.set_crs("EPSG:4326")
+    data = data.to_crs('EPSG:4326')
+    f = folium.Figure(width=dim_w, height=dim_h)
+    render_data = data.explore(tiles="OpenStreetMap", location=(52.5, 5.483333), zoom_start=8,width=dim_h, height=dim_w).add_to(f)
+    # render_path = "Assignment/tofile_exports/stops_map.html"
+    render_data.save(savepath)
+    print(f"Open {savepath} to the side or in an external browser to view it live.\n Note: changes with the code are live updated")
+    return
+
 def load_gdf(path, file):
     _df = pd.read_csv(path +file)
     # print(_df.head(3))             #assert stop_lat & stop_lon for geocoordinates
