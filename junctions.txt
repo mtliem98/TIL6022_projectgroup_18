@@ -3,3 +3,5 @@ stop_id,stop_code,stop_name,stop_lat,stop_lon,location_type,parent_station,stop_
 2,,Duivendrecht aansluiting west,52.32419836111768,4.918467468785358,,,,,
 3,,Muiderberg aansluiting,52.30024126416463,5.076276720940955,,,,,
 4,,Naarden-Bussum aansluiting,52.31002774844826,5.0750748105680135,,,,,
+5,,Emmeloord,52.71203236458662,5.753970172773622,,,,,
+6,,Drachten,53.10683615514651,6.101008556669889,,,,,
