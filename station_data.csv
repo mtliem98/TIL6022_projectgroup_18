@@ -93,11 +93,11 @@ Ermelo;2225;2225;0;Harderwijk;10000
 Harderwijk;4840;4840;0;Ermelo;10000
 Harderwijk;4840;4840;0;Nunspeet;10000
 Nunspeet;2255;2255;0;Harderwijk;10000
-Nunspeet;2255;2255;0;Harde ‘t;9000
-Harde ‘t;1169;1169;0;Wezep;10000
-Harde ‘t;1169;1169;0;Nunspeet;9000
+Nunspeet;2255;2255;0;'t Harde;9000
+'t Harde;1169;1169;0;Wezep;10000
+'t Harde;1169;1169;0;Nunspeet;9000
 Wezep;907;907;0;Zwolle;10000
-Wezep;907;907;0;Harde ‘t;9000
+Wezep;907;907;0;'t Harde;9000
 Wijhe;967;967;0;Olst;4000
 Wijhe;967;967;0;Zwolle;4000
 Olst;1097;1097;0;Wijhe;4000
