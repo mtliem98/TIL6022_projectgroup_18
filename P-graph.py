@@ -37,8 +37,10 @@ for stops in df_test_routes['Stops on the way']:        # adding edges between e
             Graph.add_edge(stops[i], stops[j])
 
 
+# determining the node positions based on the station's longitude and latitude
 pos = {row['Station']: (row['Longitude'], row['Latitude']) for i, row in df_locations.iterrows()}
 
+# Plotting the P - graph
 plt.figure(figsize=(8, 6))
 nx.draw(Graph, pos, with_labels=True,
         node_color='skyblue', node_size=500,
