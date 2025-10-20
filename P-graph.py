@@ -1,5 +1,5 @@
-# P-graph
-#Objective: A graph in which the network is mapped out, so that we can see how many transfers are needed to go from station a to b
+#P-graph
+#Objective: A graph in which the network is mapped out, so that we can see how many transfers are needed to go from any station a to b
 #Connect all the stations whicha are directly accessible from the line
 
 import pandas as pd
@@ -7,12 +7,7 @@ import geopandas as gpd
 import networkx as nx
 import matplotlib.pyplot as plt
 
-
-#data for testing
-# data_test_stations = [['Utrecht', 52.089454, 5.111796], ['Lelystad Centrum', 52.507735, 5.473311], ['Dordrecht', 51.807444, 4.670559], ['Eindhoven', 51.443663, 5.478553]]
-# df = pd.DataFrame(data_test_stations, columns=['Station', 'Latitude', 'Longitude'])
-# print(df.head(5))
-
+#mock data set with routes
 data_test_routes = [
     ["A", "D", ["A", "B","C", "D"]],
     ["B", "E", ["B", "D", "E"]],
@@ -20,21 +15,22 @@ data_test_routes = [
     ["A", "C", ["A", "B", "C"]],
     ["D", "G", ["D", "F", "G"]]
     ]
-df_test_routes = pd.DataFrame(data_test_routes, columns=['Begin station', 'End station', 'Stops on the way'])
+df_test_routes = pd.DataFrame(data_test_routes, columns=['Begin station', 'End station', 'Stops on the way'])   #convert to pandas dataframe
 print(df_test_routes.head())
 
+#mock data set with stations and their latitude and longitude
 df_locations = pd.DataFrame(
     {"Station": ["A", "B", "C", "D", "E", "F", "G"],
-     "Longitude": [52.089454, 52.507735, 51.807444, 51.443663, 52.306783, 51.673451, 52.045632],
-     "Latitude": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
-)
+     "Latitude": [52.089454, 52.507735, 51.807444, 51.443663, 52.306783, 51.673451, 52.045632],
+     "Longitude": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
+    )
 
-gdf = gpd.GeoDataFrame(df_locations, geometry=gpd.points_from_xy(df_locations.Longitude, df_locations.Latitude), crs="EPSG:4326")
+gdf = gpd.GeoDataFrame(df_locations, geometry=gpd.points_from_xy(df_locations.Longitude, df_locations.Latitude), crs="EPSG:4326")     # convert to pandas geodataframe
 print (gdf.head())
 
 Graph = nx.Graph()
 
-for stops in df_test_routes['Stops on the way']:        #ChatGPT--> adding edges between each node that can be reached without switching trains
+for stops in df_test_routes['Stops on the way']:        # adding edges between each node that can be reached without switching trains
     n = len(stops)
     for i in range(n):
         for j in range(i+1, n):
