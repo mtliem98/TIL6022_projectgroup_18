@@ -7,6 +7,7 @@ import geopandas as gpd
 import networkx as nx
 import matplotlib.pyplot as plt
 
+# --------------------------- mock data sets ---------------------------------------------------------------------
 #mock data set with routes
 data_test_routes = [
     ["A", "D", ["A", "B","C", "D"]],
@@ -25,9 +26,7 @@ df_locations = pd.DataFrame(
      "Longitude": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
     )
 
-gdf = gpd.GeoDataFrame(df_locations, geometry=gpd.points_from_xy(df_locations.Longitude, df_locations.Latitude), crs="EPSG:4326")     # convert to pandas geodataframe
-print (gdf.head())
-
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
 Graph = nx.Graph()
 
 for stops in df_test_routes['Stops on the way']:        # adding edges between each node that can be reached without switching trains
