@@ -7,26 +7,7 @@ import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 
-# --------------------------- mock datasets ---------------------------------------------------------------------
-#mock dataset with routes
-data_test_routes = [
-    ["A", "D", ["A", "B","C", "D"]],
-    ["B", "E", ["B", "D", "E"]],
-    ["C", "G", ["C", "F", "G"]],
-    ["A", "C", ["A", "B", "C"]],
-    ["D", "G", ["D", "F", "G"]]
-    ]
 
-df_test_routes = pd.DataFrame(data_test_routes, columns=['Begin station', 'End station', 'Stops on the way'])   #convert to pandas dataframe
-print(df_test_routes.head())
-
-#mock dataset with stations and their latitude and longitude
-df_locations = pd.DataFrame(
-    {"Station": ["A", "B", "C", "D", "E", "F", "G"],
-     "Latitude": [52.089454, 52.507735, 51.807444, 51.443663, 52.306783, 51.673451, 52.045632],
-     "Longitude": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
-    )
-print(df_locations.head())
 
 # -------------------------------------------------------------------------functions----------------------------------------------------------------------------
 # function for creating the edges between the nodes the can be reached without switching trains
@@ -53,6 +34,28 @@ def plot_P_graph(Graph, df_locations):
     plt.title("P-Graph", fontsize=14)
     plt.show()
 
-#calling functions
-Graph = create_P_graph(df_test_routes)
-plot_P_graph(Graph, df_locations)
+if __name__ == "__main__":
+    # --------------------------- mock datasets ---------------------------------------------------------------------
+    #mock dataset with routes
+    data_test_routes = [
+        ["A", "D", ["A", "B","C", "D"]],
+        ["B", "E", ["B", "D", "E"]],
+        ["C", "G", ["C", "F", "G"]],
+        ["A", "C", ["A", "B", "C"]],
+        ["D", "G", ["D", "F", "G"]]
+        ]
+
+    df_test_routes = pd.DataFrame(data_test_routes, columns=['Begin station', 'End station', 'Stops on the way'])   #convert to pandas dataframe
+    print(df_test_routes.head())
+
+    #mock dataset with stations and their latitude and longitude
+    df_locations = pd.DataFrame(
+        {"Station": ["A", "B", "C", "D", "E", "F", "G"],
+        "Latitude": [52.089454, 52.507735, 51.807444, 51.443663, 52.306783, 51.673451, 52.045632],
+        "Longitude": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
+        )
+    print(df_locations.head())
+
+    #calling functions
+    Graph = create_P_graph(df_test_routes)
+    plot_P_graph(Graph, df_locations)

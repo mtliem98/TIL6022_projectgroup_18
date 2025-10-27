@@ -76,4 +76,4 @@ if __name__ == "__main__":
     gtfs_folder = os.path.join( "data","gtfs-nl")      ##insert your path to folder with gtfs zip contents
     print("Check "+str(os.listdir(gtfs_folder))+"\n")       ##Print the path
     gdf = load_gdf(gtfs_folder, '/stops.txt')
-    gdf.head()
+    print(gdf.head())
