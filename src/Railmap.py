@@ -1,18 +1,23 @@
 import numpy as np
+import pandas as pd
+import scipy.sparse.csgraph as sc
+from alive_progress import alive_bar
 
 class Railmap:
-    def __init__(self, nodes, lines:dict):
+    def __init__(self, nodes:pd.Series, lines:pd.DataFrame):
         """
         Assume a list like for nodes and lines.
         Don't put in negative values as this will fail the path finding.
         All nodes should be connected somehow.
         """
         self.map = np.full((len(nodes),len(nodes)), np.inf)
-        for line in lines:
-            if line[2]<0:
+        for _, line in lines.iterrows():
+            from_station = nodes[nodes==line["from_station"]].index[0]
+            to_station = nodes[nodes==line["to_station"]].index[0]
+            if line["travel_time_min"]<0:
                 raise ValueError(f"Negative values make the shortest path algorithm not work. Here is the first negative number index: [{line[0]},{line[1]}]")
-            self.map[line[0],line[1]] = line[2]
-            self.map[line[1],line[0]] = line[2]
+            self.map[from_station, to_station] = line["travel_time_min"]
+            self.map[to_station, from_station] = line["travel_time_min"]
         
 
     def find_shortest_path_by_id(self, start_id, destination_id):
@@ -58,34 +63,52 @@ class Railmap:
         This function applies the shortest path function to all routes on the map
         """
         matrix = np.zeros(self.map.shape)
-        for start in range(len(matrix)):
-            for end in range(len(matrix)):
-                _, matrix[start, end] = self.find_shortest_path_by_id(start, end)
+        route_matrix = np.zeros(self.map.shape, dtype=object)
 
-        return matrix
+        with alive_bar(len(matrix)**2) as bar:
+            for start in range(len(matrix)):
+                length, prev_nodes = sc.shortest_path(self.map, indices=[start], return_predecessors=True)
+                for end in range(len(matrix)):
+                    matrix[start, end] = length[0][end]
+
+                    route = []
+                    prev_node = end
+                    route.insert(0,int(prev_node))
+                    while (prev_node!=start):
+                        prev_node = prev_nodes[0,prev_node]
+                        route.insert(0,int(prev_node))
+                    route_matrix[start, end] = route
+                    bar()
+        return route_matrix, matrix
     
-    def determine_O_D(self):
+    def determine_O_D(self, p, q):
         """
         Uses a gravitational model to determine the OD-matrix
         """
-        p = [500,300,700,800,1500]
-        q = [500,300,700,800,1500]
-        shortest_paths = np.divide(1, self.get_shortest_path_matrix())
+        _, costs = self.get_shortest_path_matrix()
+        shortest_paths = np.divide(1, costs)
 
         od = np.zeros(self.map.shape)
+        print(len(od))
         for start in range(len(od)):
+            start_paths = shortest_paths[start]
+            start_paths[start] = 0
             for end in range(len(od)):
-                start_paths = shortest_paths[start]
-                start_paths[start] = 0
                 path_sum = sum(q[j]*start_paths[j] for j in range(len(od)))
                 od[start, end] = (q[end]*shortest_paths[start, end])/(path_sum)*p[start]
 
         return od  
 
 if __name__ == "__main__":
-    rail = Railmap([0, 1, 2, 3, 4],[[0,2,3],[0,1,2],[2,3,2], [1,4,9], [1,3,100], [2,4,1], [4,3,1], [0,4,1]])
-    route, cost = rail.find_shortest_path_by_id(1,3)
+    line_data = pd.DataFrame({"from_station": [0,0,2,1,1,2,4,0], "to_station":[2,1,3,4,3,4,3,4], "travel_time_min":[3,2,2,9,100,1,1,1]})
+    nodes = pd.Series([0,1,2,3,4])
+    print(line_data)
+    rail = Railmap(nodes, line_data)
+    route, cost = rail.find_shortest_path_by_id(0,2)
     print(f"route: {route} with cost: {cost}")
 
-    od = rail.determine_O_D()
+
+    p = [500,300,700,800,1500]
+    q = [500,300,700,800,1500]
+    od = rail.determine_O_D(p,q)
     print(od)

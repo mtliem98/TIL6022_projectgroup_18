@@ -6,6 +6,7 @@
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+import plotly.express as ep
 
 
 
@@ -13,6 +14,7 @@ import matplotlib.pyplot as plt
 # function for creating the edges between the nodes the can be reached without switching trains
 def create_P_graph(df_test_routes):
     Graph = nx.Graph()
+    print(df_test_routes)
 
     for stops in df_test_routes['Stops on the way']:        # adding edges between each node that can be reached without switching trains
         n = len(stops)
@@ -24,9 +26,8 @@ def create_P_graph(df_test_routes):
 
 # function for plotting the graph
 def plot_P_graph(Graph, df_locations):
-    pos = {row['Station']: (row['Longitude'], row['Latitude']) for i, row in df_locations.iterrows()} # determining the node positions based on the station's longitude and latitude
-
-    plt.figure(figsize=(8, 6))
+    pos = {row['stop_name']: (row['stop_lon'], row['stop_lat']) for i, row in df_locations.iterrows()} # determining the node positions based on the station's longitude and latitude
+    plt.figure(figsize=(100, 60))
     nx.draw(Graph, pos, with_labels=True,
         node_color='skyblue', node_size=500,
         edge_color='gray', linewidths=1.5,
@@ -50,9 +51,9 @@ if __name__ == "__main__":
 
     #mock dataset with stations and their latitude and longitude
     df_locations = pd.DataFrame(
-        {"Station": ["A", "B", "C", "D", "E", "F", "G"],
-        "Latitude": [52.089454, 52.507735, 51.807444, 51.443663, 52.306783, 51.673451, 52.045632],
-        "Longitude": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
+        {"stop_name": ["A", "B", "C", "D", "E", "F", "G"],
+        "stop_lat": [52.089454, 52.507735, 51.807444, 51.443663, 52.306783, 51.673451, 52.045632],
+        "stop_lon": [5.111796, 5.473311, 4.670559, 5.478553, 5.231567, 5.002345, 4.893201]}
         )
     print(df_locations.head())
 

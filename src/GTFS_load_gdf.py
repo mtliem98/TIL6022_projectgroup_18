@@ -76,4 +76,7 @@ if __name__ == "__main__":
     gtfs_folder = os.path.join( "data","gtfs-nl")      ##insert your path to folder with gtfs zip contents
     print("Check "+str(os.listdir(gtfs_folder))+"\n")       ##Print the path
     gdf = load_gdf(gtfs_folder, '/stops.txt')
-    print(gdf.head())
+    nodes = get_nodes(os.path.join("data", "station_data.csv"),gdf)
+    print("yes")
+    print(nodes[nodes["stop_name"]=="Beilen"])
+    print(gdf.head()) 

@@ -2,6 +2,8 @@
 data/gtfs-nl
 __pycache__
 /env
+*.png
+*.pdf
 
 #generated files
 median_travel_times.csv 
