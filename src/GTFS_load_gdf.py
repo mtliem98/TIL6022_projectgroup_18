@@ -8,18 +8,10 @@ import geopandas as gpd     #geopandas.GeoDataFrame explore() needs also folium 
 import folium               #interactive map
 # import geodatasets
 import pandas as pd
-import networkx as nx
-import momepy
 
 #experimental
 from shapely.geometry import Point
 
-# Mapping and visualization
-import mapclassify
-import matplotlib
-import contextily as ctx
-import matplotlib.pyplot as plt
-import matplotlib.lines as mlines
 
 
 # %% [markdown]
@@ -80,7 +72,8 @@ def get_nodes(path,data):               #path to station_data.csv, data=gdf base
 # store it into a Geopandas Dataframe
 
 # %%
-gtfs_folder = os.path.join("Assignment","gtfs-nl")      ##insert your path to folder with gtfs zip contents
-print("Check "+str(os.listdir(gtfs_folder))+"\n")       ##Print the path
-gdf = load_gdf(gtfs_folder, '/stops.txt')
-gdf.head()
+if __name__ == "__main__":
+    gtfs_folder = os.path.join( "data","gtfs-nl")      ##insert your path to folder with gtfs zip contents
+    print("Check "+str(os.listdir(gtfs_folder))+"\n")       ##Print the path
+    gdf = load_gdf(gtfs_folder, '/stops.txt')
+    gdf.head()
