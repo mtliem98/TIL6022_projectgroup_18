@@ -27,7 +27,7 @@ def create_P_graph(df_test_routes):
 # function for plotting the graph
 def plot_P_graph(Graph, df_locations):
     pos = {row['stop_name']: (row['stop_lon'], row['stop_lat']) for i, row in df_locations.iterrows()} # determining the node positions based on the station's longitude and latitude
-    plt.figure(figsize=(100, 60))
+    plt.figure(figsize=(10, 6))
     nx.draw(Graph, pos, with_labels=True,
         node_color='skyblue', node_size=500,
         edge_color='gray', linewidths=1.5,
