@@ -5,3 +5,7 @@ stop_id,stop_code,stop_name,stop_lat,stop_lon,location_type,parent_station,stop_
 4,,Naarden-Bussum aansluiting,52.31002774844826,5.0750748105680135,,,,,
 5,,Emmeloord,52.71203236458662,5.753970172773622,,,,,
 6,,Drachten,53.10683615514651,6.101008556669889,,,,,
+7,,Lelystad Opstel,52.549187,5.495563,,,,,
+8,,Bokkeduinen,52.155938,5.354938,,,,,
+9,,Watergraafsmeer,52.353188,4.948688,,,,,
+10,,Amsterdam Lijnwerkplaats Zuid,52.392063,4.867188,,,,,

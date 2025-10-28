@@ -4,7 +4,7 @@ import scipy.sparse.csgraph as sc
 from alive_progress import alive_bar
 
 class Railmap:
-    def __init__(self, nodes:pd.Series, lines:pd.DataFrame):
+    def __init__(self, nodes:pd.Series, lines:list):
         """
         Assume a list like for nodes and lines.
         Don't put in negative values as this will fail the path finding.
@@ -12,8 +12,10 @@ class Railmap:
         """
         self.map = np.full((len(nodes),len(nodes)), np.inf)
         for _, line in lines.iterrows():
-            from_station = nodes[nodes==line["from_station"]].index[0]
-            to_station = nodes[nodes==line["to_station"]].index[0]
+            if line["from_station"] not in nodes or line["to_station"] not in nodes:
+                continue
+            from_station = nodes.index(line["from_station"])
+            to_station = nodes.index(line["to_station"])
             if line["travel_time_min"]<0:
                 raise ValueError(f"Negative values make the shortest path algorithm not work. Here is the first negative number index: [{line[0]},{line[1]}]")
             self.map[from_station, to_station] = line["travel_time_min"]
@@ -64,7 +66,6 @@ class Railmap:
         """
         matrix = np.zeros(self.map.shape)
         route_matrix = np.zeros(self.map.shape, dtype=object)
-
         with alive_bar(len(matrix)**2) as bar:
             for start in range(len(matrix)):
                 length, prev_nodes = sc.shortest_path(self.map, indices=[start], return_predecessors=True)
@@ -74,7 +75,7 @@ class Railmap:
                     route = []
                     prev_node = end
                     route.insert(0,int(prev_node))
-                    while (prev_node!=start):
+                    while (prev_node!=start and prev_node!=-9999):
                         prev_node = prev_nodes[0,prev_node]
                         route.insert(0,int(prev_node))
                     route_matrix[start, end] = route
@@ -89,7 +90,6 @@ class Railmap:
         shortest_paths = np.divide(1, costs)
 
         od = np.zeros(self.map.shape)
-        print(len(od))
         for start in range(len(od)):
             start_paths = shortest_paths[start]
             start_paths[start] = 0
