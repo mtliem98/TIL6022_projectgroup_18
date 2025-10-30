@@ -7,7 +7,7 @@ GTFS_URL = "https://gtfs.ovapi.nl/nl/gtfs-nl.zip" # specify data source
 
 # file is downloaded to the same directory as the .py file
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-ZIP_FILE = os.path.join(SCRIPT_DIR, "gtfs-nl.zip")
+ZIP_FILE = os.path.join(SCRIPT_DIR, "..", "data", "gtfs-nl.zip")
 
 MAX_AGE_HOURS = 24 # specify max age of local file in hrs
 
