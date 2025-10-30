@@ -54,7 +54,7 @@ def main():
         print(".zip file missing or old, downloading new data")
         download_gtfs(GTFS_URL, ZIP_FILE)
     # overwrites the extracted files regardless of their age
-    extract_zip(ZIP_FILE, os.path.join(SCRIPT_DIR, "gtfs-nl"))
+    extract_zip(ZIP_FILE, os.path.join(SCRIPT_DIR, "..", "data", "gtfs-nl"))
 
 if __name__ == "__main__":
     main()
