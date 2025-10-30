@@ -39,12 +39,41 @@ class Analyser:
 
     def analyse_original_network(self):
         passengers = self.stop_data.drop_duplicates("Station")["Getting_on_off"].to_list()
-        OD_matrix = self.rail.determine_O_D(passengers, passengers)
-        routes = Matrix_To_Routes(OD_matrix, self.graph, self.stations.to_list())
-        Visualisation_travelers(self.graph, routes, OD_matrix, self.gdf)
+        self.OD_matrix = self.rail.determine_O_D(passengers, passengers)
+        routes = Matrix_To_Routes(self.OD_matrix, self.graph, self.stations.to_list())
+        Visualisation_travelers(self.graph, routes, self.OD_matrix, self.gdf)
+
+    def analyse_extended_network(self, extra_stations, new_travel_times:pd.DataFrame):
+        extended_stations = pd.concat((self.stations, extra_stations["Station"]), ignore_index=True).drop_duplicates()
+        extended_travel_times = pd.concat((self.travel_times, new_travel_times), ignore_index=True)
+
+        edges = pd.concat((self.stop_data.copy().dropna(ignore_index=True), extra_stations), ignore_index=True)
+        p_graph = []
+        for i in range(len(edges)):
+            edge = edges.iloc[i]
+            if edge["Direction_to"] in edges["Station"].values:
+                p_graph.append([edge["Station"], edge["Direction_to"], [edge["Station"], edge["Direction_to"]]])
+        p_graph = pd.DataFrame(p_graph, columns=['Begin station', 'End station', 'Stops on the way'])
+        extended_graph = create_P_graph(p_graph) 
+
+        passengers = edges.drop_duplicates("Station")["Getting_on_off"].to_list()
+        extended_rail_map = Railmap(extended_stations.to_list(), extended_travel_times)
+        extended_OD_matrix = extended_rail_map.determine_O_D(passengers, passengers)
+        extended_network_routes = Matrix_To_Routes(extended_OD_matrix, extended_graph, extended_stations.to_list())
+        Visualisation_travelers(extended_graph, extended_network_routes, extended_OD_matrix, self.gdf)
 
 
 if __name__ == "__main__":
     analysis = Analyser()
     #analysis.create_p_graph()
-    analysis.analyse_original_network()
+    #analysis.analyse_original_network()
+    additional_stations = pd.DataFrame({"Station":["Emmeloord", "Drachten", "Heerenveen", "Groningen"], 
+                                        "Travelers_per_day":[3177, 5314, 5001, 16064], 
+                                        "Getting_on_off":[3177, 5314, 4970, 16064], 
+                                        "Direction_to":["Lelystad Centrum", "Heerenveen", "Emmeloord", "Drachten"],
+                                        "Switchers":[0,0,0,0],
+                                        "Travelers_to":[0,0,0,0]})
+    new_travel_times = pd.DataFrame({"travel_time_min": [13,8,14,13], 
+                                     "from_station":["Groningen", "Drachten", "Heerenveen", "Emmeloord"], 
+                                    "to_station": ["Drachten", "Heerenveen", "Emmeloord", "Lelystad Centrum"]})
+    analysis.analyse_extended_network(additional_stations, new_travel_times)

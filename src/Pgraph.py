@@ -14,7 +14,6 @@ import plotly.express as ep
 # function for creating the edges between the nodes the can be reached without switching trains
 def create_P_graph(df_test_routes):
     Graph = nx.Graph()
-    print(df_test_routes)
 
     for stops in df_test_routes['Stops on the way']:        # adding edges between each node that can be reached without switching trains
         n = len(stops)
