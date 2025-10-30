@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import zipfile
 
 GTFS_URL = "https://gtfs.ovapi.nl/nl/gtfs-nl.zip" # specify data source
 
@@ -38,15 +39,22 @@ def download_gtfs(url, filename):
             f.write(chunk)
     print("Download complete")
 
+def extract_zip(zip_path, extract_to):
+    print(f"Extracting {os.path.basename(zip_path)} to {extract_to}...")
+    with zipfile.ZipFile(zip_path, "r") as zip_ref:
+        zip_ref.extractall(extract_to)
+    print("Extraction complete")
+
 def main():
     # extract from existing .zip file if it’s not too old
     if not is_file_old(ZIP_FILE, MAX_AGE_HOURS):
+        # to prevent getting rate limited by remote server
         print(".zip file is within requested age")
-        #extract_zip(ZIP_FILE, EXTRACT_DIR)
     else:
         print(".zip file missing or old, downloading new data")
         download_gtfs(GTFS_URL, ZIP_FILE)
-        #extract_zip(ZIP_FILE, EXTRACT_DIR)
+    # overwrites the extracted files regardless of their age
+    extract_zip(ZIP_FILE, os.path.join(SCRIPT_DIR, "..", "data", "gtfs-nl"))
 
 if __name__ == "__main__":
     main()
