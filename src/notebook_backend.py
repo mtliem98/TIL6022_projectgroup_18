@@ -11,8 +11,9 @@ class Analyser:
 
     def __init__(self):
         fetch.main()
-        gtfs_path = os.path.join("data", "gtfs-nl")
-        gdf = load_gdf(gtfs_path, "/stops.txt")
+        gtfs_path = os.path.join("data", "gtfs-nl", "stops.txt")
+        #gtfs_path = os.path.join("data", "gtfs-nl")
+        gdf = load_gdf(gtfs_path) 
         gdf = gdf[gdf["stop_lat"]>50] #that's everything thats roughly in the netherlands
         junctions = pd.read_csv(os.path.join("data", "junctions.txt"))
         self.gdf = pd.concat((gdf, junctions))
@@ -24,6 +25,7 @@ class Analyser:
         self.stations = self.stop_data["Station"].drop_duplicates(ignore_index=True)
         self.stop_data = self.stop_data.fillna(0)
         self.rail = Railmap(self.stations.to_list(), self.travel_times)   
+        #print(self.rail.get_shortest_path_matrix())
 
         real_edges = self.stop_data.copy().dropna(ignore_index=True)
         p_graph = []
@@ -62,6 +64,46 @@ class Analyser:
         extended_network_routes = Matrix_To_Routes(extended_OD_matrix, extended_graph, extended_stations.to_list())
         Visualisation_travelers(extended_graph, extended_network_routes, extended_OD_matrix, self.gdf)
 
+    def show_shortest_path_table(self):
+        # stations to filter
+        filter_stations = [
+            "Groningen", "Leeuwarden", "Zwolle", "Lelystad Centrum",
+            "Amsterdam Centraal", "Utrecht Centraal", "Amersfoort Centraal", "Weesp"]
+
+        # shortest path data
+        paths, times = self.rail.get_shortest_path_matrix()
+
+        # infinities with zeros
+        safe_times = np.where(np.isfinite(times), times, 0)
+        safe_times = np.nan_to_num(safe_times, nan=0)
+
+        # convert to dataframe with station labels
+        stations = self.stations.to_list()
+        df = pd.DataFrame(safe_times, index=stations, columns=stations)
+
+        # filter for the selected stations
+        df_filtered = df.loc[filter_stations, filter_stations]
+
+        # replace 0 with ""
+        cell_text = np.where(df_filtered.values == 0, "", np.round(df_filtered.values, 1))
+
+        # normalize for coloring
+        norm_data = df_filtered.values / np.nanmax(df_filtered.values)
+
+        # plot table
+        fig, ax = plt.subplots(figsize=(10, 8))
+        ax.set_axis_off()
+
+        table = ax.table(
+            cellText=cell_text,
+            rowLabels=df_filtered.index,
+            colLabels=df_filtered.columns,
+            cellColours=plt.cm.BuGn(norm_data),
+            # the coloring exptects the values to start from 0, as no increase in travel time is expected
+            loc='center'
+        )
+
+        plt.show()
 
 if __name__ == "__main__":
     analysis = Analyser()
@@ -77,3 +119,4 @@ if __name__ == "__main__":
                                      "from_station":["Groningen", "Drachten", "Heerenveen", "Emmeloord"], 
                                     "to_station": ["Drachten", "Heerenveen", "Emmeloord", "Lelystad Centrum"]})
     analysis.analyse_extended_network(additional_stations, new_travel_times)
+    analysis.show_shortest_path_table()
