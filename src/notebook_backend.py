@@ -1,9 +1,9 @@
-from GTFS_load_gdf import *
-import fetch
-from Pgraph import *
-from travel_time import *
-from Railmap import *
-from ODmatrixtoroutes import *
+from .GTFS_load_gdf import *
+from . import fetch
+from .Pgraph import *
+from .travel_time import *
+from .Railmap import *
+from .ODmatrixtoroutes import *
 
 import pandas as pd
 
