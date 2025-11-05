@@ -110,11 +110,8 @@ def interactable_map(data, savepath):
     print(f"\nOpen {savepath} to the side or in an external browser to view it live.\n Note: changes with the code are live updated\n")
     return m 
 
-def load_gdf(path, file):
-    try:
-        _df = pd.read_csv(path +file)
-    except:
-        _df = pd.read_csv(os.path.join(path, file))
+def load_gdf(path):
+    _df = pd.read_csv(path)
     # print(_df.head(3))             #assert stop_lat & stop_lon for geocoordinates
     geometry = [Point(xy) for xy in zip(_df['stop_lon'],_df['stop_lat'])]
     # print(geometry[0:5])
