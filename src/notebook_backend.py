@@ -138,17 +138,19 @@ class Analyser:
             "Amsterdam Centraal", "Utrecht Centraal", "Amersfoort Centraal", "Weesp"]
     
         # shortest travel times in original network
-        self.analyse_original_network()
         old_paths, old_times = self.rail.get_shortest_path_matrix()
 
         # shortest travel times in new network
-        self.analyse_extended_network(additional_stations, new_travel_times)
-        new_paths, new_times = self.rail.get_shortest_path_matrix()
+        extended_stations = pd.concat((self.stations, additional_stations["Station"]), ignore_index=True).drop_duplicates()
+        extended_travel_times = pd.concat((self.travel_times, new_travel_times), ignore_index=True)
+        #self.analyse_extended_network(additional_stations, new_travel_times)
+        temp_rail = Railmap(extended_stations.to_list(), extended_travel_times)
+        new_paths, new_times = temp_rail.get_shortest_path_matrix()
 
         # dataframe with old and new times
         stations = self.stations.to_list()
         df_old = pd.DataFrame(old_times, index=stations, columns=stations)
-        df_new = pd.DataFrame(new_times, index=stations, columns=stations)
+        df_new = pd.DataFrame(new_times, index=extended_stations, columns=extended_stations)
         # dataframe with old and new times for filtered stations
         df_old_filtered = df_old.loc[filter_stations, filter_stations]
         df_new_filtered = df_new.loc[filter_stations, filter_stations]
@@ -159,11 +161,18 @@ class Analyser:
         cell_text = np.where(df_diff == 0, "", np.round(df_diff.values, 1))
 
         #normalize for coloring
-        #if np.nanmax(np.abs(df_diff.values)) == 0:
-         #   norm_data = np.zeros_like(df_diff.values)
-        #else:
-         #   norm_data = df_diff.values / np.nanmax(df_diff.values)
-        norm_data = df_diff.values / np.nanmax(df_diff.values)
+        if np.nanmax(df_diff.values) - np.nanmin(df_diff.values) == 0:
+            norm_data = np.zeros_like(df_diff.values)
+        else:
+            norm_data = (df_diff.values - np.nanmin(df_diff.values)) / (np.nanmax(df_diff.values) - np.nanmin(df_diff.values))
+        #norm_data = np.abs(df_diff.values / np.nanmax(df_diff.values))
+
+        # cell text
+        cell_text = np.empty(df_diff.shape, dtype=object)
+        for i in range(df_diff.shape[0]):
+            for j in range(df_diff.shape[1]):
+                val = df_diff.iloc[i, j]
+                cell_text[i, j] = f"{val:.1f} min" if val != 0 else "" 
 
         # plot table
         fig, ax = plt.subplots(figsize=(10, 8))
@@ -173,7 +182,7 @@ class Analyser:
             cellText=cell_text,
             rowLabels=df_diff.index,
             colLabels=df_diff.columns,
-            cellColours=plt.cm.BuGn(norm_data),
+            cellColours=plt.cm.BuGn_r(norm_data),
             # the coloring exptects the values to start from 0, as no increase in travel time is expected
             loc='center'
         )
@@ -217,4 +226,5 @@ if __name__ == "__main__":
                                      "from_station":["Groningen", "Drachten", "Heerenveen", "Emmeloord"], 
                                     "to_station": ["Drachten", "Heerenveen", "Emmeloord", "Lelystad Centrum"]})
     analysis.analyse_extended_network(additional_stations, new_travel_times)
+    analysis.show_shortest_path_table()
     analysis.show_shortest_path_diff_table(additional_stations, new_travel_times)
