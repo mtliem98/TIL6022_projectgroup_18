@@ -11,9 +11,9 @@ class Analyser:
 
     def __init__(self):
         fetch.main()
-        gtfs_path = os.path.join("data", "gtfs-nl", "stops.txt")
-        #gtfs_path = os.path.join("data", "gtfs-nl")
-        gdf = load_gdf(gtfs_path) 
+        #gtfs_path = os.path.join("data", "gtfs-nl", "stops.txt")
+        gtfs_path = os.path.join("data", "gtfs-nl", "")
+        gdf = load_gdf(gtfs_path, "stops.txt") 
         gdf = gdf[gdf["stop_lat"]>50] #that's everything thats roughly in the netherlands
         junctions = pd.read_csv(os.path.join("data", "junctions.txt"))
         self.gdf = pd.concat((gdf, junctions))
@@ -131,6 +131,77 @@ class Analyser:
 
         plt.show()
 
+    def show_shortest_path_diff_table(self, additional_stations, new_travel_times):
+        # filter the stations
+        filter_stations = [
+            "Groningen", "Leeuwarden", "Zwolle", "Lelystad Centrum",
+            "Amsterdam Centraal", "Utrecht Centraal", "Amersfoort Centraal", "Weesp"]
+    
+        # shortest travel times in original network
+        self.analyse_original_network()
+        old_paths, old_times = self.rail.get_shortest_path_matrix()
+
+        # shortest travel times in new network
+        self.analyse_extended_network(additional_stations, new_travel_times)
+        new_paths, new_times = self.rail.get_shortest_path_matrix()
+
+        # dataframe with old and new times
+        stations = self.stations.to_list()
+        df_old = pd.DataFrame(old_times, index=stations, columns=stations)
+        df_new = pd.DataFrame(new_times, index=stations, columns=stations)
+        # dataframe with old and new times for filtered stations
+        df_old_filtered = df_old.loc[filter_stations, filter_stations]
+        df_new_filtered = df_new.loc[filter_stations, filter_stations]
+        # dataframe with time difference old and new network
+        df_diff = df_new_filtered - df_old_filtered 
+
+        # replace 0 with ""
+        cell_text = np.where(df_diff == 0, "", np.round(df_diff.values, 1))
+
+        #normalize for coloring
+        if np.nanmax(np.abs(df_diff.values)) == 0:
+            norm_data = np.zeros_like(df_diff.values)
+        else:
+            norm_data = df_diff.values / np.nanmax(df_diff.values)
+
+        # plot table
+        fig, ax = plt.subplots(figsize=(10, 8))
+        ax.set_axis_off()
+
+        table = ax.table(
+            cellText=cell_text,
+            rowLabels=df_diff.index,
+            colLabels=df_diff.columns,
+            cellColours=plt.cm.BuGn(norm_data),
+            # the coloring exptects the values to start from 0, as no increase in travel time is expected
+            loc='center'
+        )
+
+        # adjust table scale and alignment
+        table.auto_set_font_size(False)
+        table.set_fontsize(8)
+        table.scale(1, 1)
+
+        # get table bounding box for positioning labels
+        plt.draw()  # need to render to get table bbox
+        bbox = table.get_window_extent(fig.canvas.get_renderer())
+        inv = ax.transData.inverted()
+        bbox_data = inv.transform(bbox)
+
+        # add titles directly above and to the left of the table
+        ax.text(
+            (bbox_data[0][0] + bbox_data[1][0]) / 2,
+            bbox_data[1][1] + 0.1,
+            "Destination station")
+
+        ax.text(
+            bbox_data[0][0] + 0.04,
+            (bbox_data[0][1] + bbox_data[1][1]) / 2,
+            "Origin station",
+            rotation="vertical")
+
+        plt.show()
+
 if __name__ == "__main__":
     analysis = Analyser()
     #analysis.create_p_graph()
@@ -145,4 +216,4 @@ if __name__ == "__main__":
                                      "from_station":["Groningen", "Drachten", "Heerenveen", "Emmeloord"], 
                                     "to_station": ["Drachten", "Heerenveen", "Emmeloord", "Lelystad Centrum"]})
     analysis.analyse_extended_network(additional_stations, new_travel_times)
-    analysis.show_shortest_path_table()
+    analysis.show_shortest_path_diff_table()
