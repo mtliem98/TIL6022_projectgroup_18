@@ -159,10 +159,11 @@ class Analyser:
         cell_text = np.where(df_diff == 0, "", np.round(df_diff.values, 1))
 
         #normalize for coloring
-        if np.nanmax(np.abs(df_diff.values)) == 0:
-            norm_data = np.zeros_like(df_diff.values)
-        else:
-            norm_data = df_diff.values / np.nanmax(df_diff.values)
+        #if np.nanmax(np.abs(df_diff.values)) == 0:
+         #   norm_data = np.zeros_like(df_diff.values)
+        #else:
+         #   norm_data = df_diff.values / np.nanmax(df_diff.values)
+        norm_data = df_diff.values / np.nanmax(df_diff.values)
 
         # plot table
         fig, ax = plt.subplots(figsize=(10, 8))
@@ -216,4 +217,4 @@ if __name__ == "__main__":
                                      "from_station":["Groningen", "Drachten", "Heerenveen", "Emmeloord"], 
                                     "to_station": ["Drachten", "Heerenveen", "Emmeloord", "Lelystad Centrum"]})
     analysis.analyse_extended_network(additional_stations, new_travel_times)
-    analysis.show_shortest_path_diff_table()
+    analysis.show_shortest_path_diff_table(additional_stations, new_travel_times)
