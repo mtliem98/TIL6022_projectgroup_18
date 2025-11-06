@@ -84,8 +84,11 @@ class Analyser:
         # filter for the selected stations
         df_filtered = df.loc[filter_stations, filter_stations]
 
-        # replace 0 with ""
-        cell_text = np.where(df_filtered.values == 0, "", np.round(df_filtered.values, 1))
+        cell_text = np.empty(df_filtered.shape, dtype=object)
+        for i in range(df_filtered.shape[0]):
+            for j in range(df_filtered.shape[1]):
+                val = df_filtered.iloc[i, j]
+                cell_text[i, j] = f"{val:.1f} min" if val != 0 else ""
 
         # normalize for coloring
         norm_data = df_filtered.values / np.nanmax(df_filtered.values)
@@ -102,6 +105,29 @@ class Analyser:
             # the coloring exptects the values to start from 0, as no increase in travel time is expected
             loc='center'
         )
+
+        # adjust table scale and alignment
+        table.auto_set_font_size(False)
+        table.set_fontsize(8)
+        table.scale(1, 1)
+
+        # get table bounding box for positioning labels
+        plt.draw()  # need to render to get table bbox
+        bbox = table.get_window_extent(fig.canvas.get_renderer())
+        inv = ax.transData.inverted()
+        bbox_data = inv.transform(bbox)
+
+        # add titles directly above and to the left of the table
+        ax.text(
+            (bbox_data[0][0] + bbox_data[1][0]) / 2,
+            bbox_data[1][1] + 0.1,
+            "Destination station")
+
+        ax.text(
+            bbox_data[0][0] + 0.04,
+            (bbox_data[0][1] + bbox_data[1][1]) / 2,
+            "Origin station",
+            rotation="vertical")
 
         plt.show()
 
