@@ -66,7 +66,6 @@ class Analyser:
         self.OD_matrix = self.rail.determine_O_D(passengers, passengers)
         routes = Matrix_To_Routes(self.OD_matrix, self.graph, self.stations.to_list())
         passenger_data = Visualisation_travelers(self.graph, routes, self.OD_matrix, self.gdf)
-        print(passenger_data)
         return interactable_map(self.gdf_filter, os.path.join("data", "original_network.html"), self.graph, passenger_data)
 
     def analyse_extended_network(self, extra_stations, new_travel_times:pd.DataFrame):

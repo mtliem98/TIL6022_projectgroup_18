@@ -40,7 +40,7 @@ def download_gtfs(url, filename):
     print("Download complete")
 
 def extract_zip(zip_path, extract_to):
-    print(f"Extracting {os.path.basename(zip_path)} to {extract_to}...")
+    #print(f"Extracting {os.path.basename(zip_path)} to {extract_to}...")
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(extract_to)
     print("Extraction complete")
