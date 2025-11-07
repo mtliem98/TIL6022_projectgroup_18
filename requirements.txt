@@ -8,3 +8,4 @@ matplotlib
 requests
 networkx
 scipy
+shapely
