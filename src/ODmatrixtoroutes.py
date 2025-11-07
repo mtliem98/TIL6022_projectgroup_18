@@ -3,19 +3,16 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def Matrix_To_Routes(OD_Matrix, G, station_list):
-    #OD_Matrix = matrix met aantal verplaatsingen tussen i en j
-    #TT_Matrix = matrix met reistijden tussen i en j
-    #G: De graaf, het netwerk met lijnstukjes en reistijden per lijnstukje
     routes = np.zeros((len(OD_Matrix),len(OD_Matrix)), dtype = object)
     for i in range(len(OD_Matrix)):
         for j in range(len(OD_Matrix)):
             if i != j and OD_Matrix[i][j] > 0:
                 routes[i][j] = nx.shortest_path(G, source = station_list[i], target = station_list[j], weight = 'weight') #path with least travel time on the network
-    return routes #een lijst met de kortste route voor elke relatie, elke route is ook een lijst
+    return routes #a list with the shortest paths for every OD-pair
 
 def get_segments(G):
     segments = list(G.edges())
-    return segments #een lijst met alle verbindingen als tupel
+    return segments #a list with all edges as a tuple
 
 def Travelers_On_Segment(segment, routes, OD_Matrix): 
     counter = 0
@@ -29,15 +26,15 @@ def Travelers_On_Segment(segment, routes, OD_Matrix):
             for k in range(len(route) - 1):
                 if route[k] == u and route[k+1] == v:
                     counter += OD_Matrix[i][j]
-    return counter #Het aantal reizigers op een edge (er is onderscheid per richting)
+    return counter #number of travelers on an edge
 
 def Travelers_On_Segments(segments, routes, OD_Matrix):
     travelers_on_segments = []
     for segment in segments:
         travelers_on_segments.append(Travelers_On_Segment(segment, routes, OD_Matrix))
-    return travelers_on_segments #een lijst met het aantal reizigers per segment: traverelers_on_segments[i] = het aantal reizigers op segment i
+    return travelers_on_segments #a list: traverelers_on_segments[i] = number of travelers on segment i
 
-def Visualisation_travelers(G, routes, OD_Matrix, locations):
+def Visualisation_travelers(G, routes, OD_Matrix, locations): #Visualisation
     segments = get_segments(G)
     travelers = Travelers_On_Segments(segments, routes, OD_Matrix)
     travelers = np.array(travelers)
@@ -46,6 +43,7 @@ def Visualisation_travelers(G, routes, OD_Matrix, locations):
         edge_width = np.interp(travelers, (travelers.min(), travelers.max()), (min_width, max_width))
     else:
         edge_width = [1 for _ in travelers]
+    #edge_width depends on number of travelers on an edge
 
     pos = {row['stop_name']: (row['stop_lon'], row['stop_lat']) for i, row in locations.iterrows()} # determining the node positions based on the station's longitude and latitude
     plt.figure(figsize=(8,6))
