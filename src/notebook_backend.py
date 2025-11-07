@@ -11,9 +11,9 @@ class Analyser:
 
     def __init__(self):
         fetch.main()
-        #gtfs_path = os.path.join("data", "gtfs-nl", "stops.txt")
-        gtfs_path = os.path.join("data", "gtfs-nl", "")
-        gdf = load_gdf(gtfs_path, "stops.txt") 
+        gtfs_path = os.path.join("data", "gtfs-nl", "stops.txt")
+        #gtfs_path = os.path.join("data", "gtfs-nl")
+        gdf = load_gdf(gtfs_path) 
         gdf = gdf[gdf["stop_lat"]>50] #that's everything thats roughly in the netherlands
         junctions = load_gdf(os.path.join("data", "junctions.txt"))       #adds geometry data required for gdf to junctions which was missing
         gdf = pd.concat((gdf, junctions)).reset_index(drop=True)
