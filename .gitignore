@@ -7,4 +7,4 @@ __pycache__
 
 #generated files
 median_travel_times.csv 
-data/interact_map.html
+data/*.html

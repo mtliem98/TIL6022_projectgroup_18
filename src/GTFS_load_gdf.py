@@ -9,6 +9,7 @@ import folium               #interactive map
 # import geodatasets
 import networkx as nx
 import pandas as pd
+import branca.colormap as cm
 
 #experimental
 from shapely.geometry import Point
@@ -62,7 +63,9 @@ def nx_to_gdf(G):
     
     return gdf
 
-def interactable_map(data, savepath):
+def interactable_map(data, savepath, station_list:list = None, edges = None):
+    colormap = cm.LinearColormap(["#00004C", "#0000FF", "#7F9EFF", "#D0D8E8", "#FF9EA0", "#FF0000", "#800000"], index=[0, 1000, 5000, 20000, 50000, 70000, 100000])
+
     #change these for size visual
     dim_w = 600
     dim_h = 500
@@ -97,13 +100,27 @@ def interactable_map(data, savepath):
                             dest_coords = (dest_station.iloc[0].geometry.y, dest_station.iloc[0].geometry.x)
                             
                             # Add the edge line
-                            folium.PolyLine(
-                                locations=[current_coords, dest_coords],
-                                color='red',
-                                weight=2,
-                                opacity=0.7,
-                                popup=f"Route: {origin} ↔ {destination}"
-                            ).add_to(m)
+                            #if you have color information, you should add that to the lines #TO DO
+                            if station_list != None and type(edges) != None:
+                                try:
+                                    passengers = edges[list(nx.to_edgelist(station_list)).index((edge[0],edge[1],{}))]
+                                except:
+                                    passengers = edges[list(nx.to_edgelist(station_list)).index((edge[1],edge[0],{}))]
+                                folium.PolyLine(
+                                    locations=[current_coords, dest_coords],
+                                    color=colormap(passengers),
+                                    weight=5,
+                                    opacity=1,
+                                    popup=f"Route: {origin} ↔ {destination} with {passengers} passengers in each direction"
+                                ).add_to(m)
+                            else:
+                                folium.PolyLine(
+                                    locations=[current_coords, dest_coords],
+                                    color='red',
+                                    weight=2,
+                                    opacity=0.7,
+                                    popup=f"Route: {origin} ↔ {destination}"
+                                ).add_to(m)
 
     m.save(savepath)
     print("----------------------------------------------------")
@@ -127,7 +144,10 @@ def load_gdf(path):
 
 def get_nodes(path,data):               #path to station_data.csv, data=gdf based on stops.txt
     print("get stations nodes")
-    file = pd.read_csv(path,sep=";")        #remove depending on seperator';'
+    if type(path)==str:
+        file = pd.read_csv(path,sep=";")        #remove depending on seperator';'
+    else:
+        file=path
     _df = file.copy()['Station']            #_df = the station_data.dsv
     print(_df)                              #_nodes = gdf filtered with only relevant nodes
     _df = _df.drop_duplicates()
