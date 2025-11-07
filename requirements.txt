@@ -1,0 +1,10 @@
+numpy
+pandas
+ipykernel
+matplotlib
+geopandas
+folium
+matplotlib
+requests
+networkx
+scipy
