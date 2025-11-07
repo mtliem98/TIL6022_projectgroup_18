@@ -128,7 +128,7 @@ def interactable_map(data, savepath, station_list:list = None, edges = None):
     return m 
 
 def load_gdf(path):
-    _df = pd.read_csv(path)
+    _df = pd.read_csv(path, low_memory=False)
     # print(_df.head(3))             #assert stop_lat & stop_lon for geocoordinates
     geometry = [Point(xy) for xy in zip(_df['stop_lon'],_df['stop_lat'])]
     # print(geometry[0:5])
@@ -138,7 +138,6 @@ def load_gdf(path):
     _gdf=gpd.GeoDataFrame(_gdf)             #with geometry, coordinates dataframe is turned into a geodatagrame
     _gdf = _gdf.set_crs("EPSG:4326")        #set crs to gpd
     _gdf = _gdf.to_crs('EPSG:4326')
-    print(type(_gdf))
     return _gdf
 # gdf.plot()
 
@@ -149,11 +148,10 @@ def get_nodes(path,data):               #path to station_data.csv, data=gdf base
     else:
         file=path
     _df = file.copy()['Station']            #_df = the station_data.dsv
-    print(_df)                              #_nodes = gdf filtered with only relevant nodes
+                            #_nodes = gdf filtered with only relevant nodes
     _df = _df.drop_duplicates()
     #node part
     node_list = list(_df)
-    print(len(node_list))
     _node = data.loc[data['stop_name'].isin(node_list)]
     # _node.plot()                        #comment if it works
     print("Nodes loaded")

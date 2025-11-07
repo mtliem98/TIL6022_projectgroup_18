@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import scipy.sparse.csgraph as sc
-from alive_progress import alive_bar
 
 class Railmap:
     def __init__(self, nodes:pd.Series, lines:list):
@@ -20,6 +19,7 @@ class Railmap:
                 raise ValueError(f"Negative values make the shortest path algorithm not work. Here is the first negative number index: [{line[0]},{line[1]}]")
             self.map[from_station, to_station] = line["travel_time_min"]
             self.map[to_station, from_station] = line["travel_time_min"]
+        np.seterr("ignore")
         
 
     def find_shortest_path_by_id(self, start_id, destination_id):
@@ -66,20 +66,18 @@ class Railmap:
         """
         matrix = np.zeros(self.map.shape)
         route_matrix = np.zeros(self.map.shape, dtype=object)
-        with alive_bar(len(matrix)**2) as bar:
-            for start in range(len(matrix)):
-                length, prev_nodes = sc.shortest_path(self.map, indices=[start], return_predecessors=True)
-                for end in range(len(matrix)):
-                    matrix[start, end] = length[0][end]
+        for start in range(len(matrix)):
+            length, prev_nodes = sc.shortest_path(self.map, indices=[start], return_predecessors=True)
+            for end in range(len(matrix)):
+                matrix[start, end] = length[0][end]
 
-                    route = []
-                    prev_node = end
+                route = []
+                prev_node = end
+                route.insert(0,int(prev_node))
+                while (prev_node!=start and prev_node!=-9999):
+                    prev_node = prev_nodes[0,prev_node]
                     route.insert(0,int(prev_node))
-                    while (prev_node!=start and prev_node!=-9999):
-                        prev_node = prev_nodes[0,prev_node]
-                        route.insert(0,int(prev_node))
-                    route_matrix[start, end] = route
-                    bar()
+                route_matrix[start, end] = route
         return route_matrix, matrix
     
     def determine_O_D(self, p, q):
