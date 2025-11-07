@@ -11,19 +11,11 @@ import networkx as nx
 import pandas as pd
 import branca.colormap as cm
 
-#experimental
-from shapely.geometry import Point
 
 
 
 # %% [markdown]
 # Loading a gtfs data into a gdf
-
-# %%
-def get_distance(data, origin, destination):
-    A=(data[origin]["stop_lat"],data[origin]["stop_lon"])
-    B=(data[destination]["stop_lat"],data[destination]["stop_lon"])
-    return geopy.distance.geodesic(A, B).m
 
 def gdf_to_nx(gdf_network,L_space_edges):
     G = nx.Graph(L_space_edges)
