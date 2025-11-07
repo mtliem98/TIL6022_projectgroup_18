@@ -55,7 +55,7 @@ def Visualisation_travelers(G, routes, OD_Matrix, locations):
 
     plt.title("Network")
     plt.axis("off")
-    plt.show()
+    #plt.show()
     return travelers
 
 if __name__ == "__main__":

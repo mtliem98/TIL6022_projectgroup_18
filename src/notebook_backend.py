@@ -72,19 +72,31 @@ class Analyser:
         extended_travel_times = pd.concat((self.travel_times, new_travel_times), ignore_index=True)
 
         edges = pd.concat((self.stop_data.copy().dropna(ignore_index=True), extra_stations), ignore_index=True)
-        p_graph = []
+
+        l_graph_edges = []                #it was the l_graph not the p_graph, changed the name where applicable to avoid confusion. 
+        gdf = self.gdf.copy()
+        stops = gdf['stop_name']
         for i in range(len(edges)):
             edge = edges.iloc[i]
             if edge["Direction_to"] in edges["Station"].values:
-                p_graph.append([edge["Station"], edge["Direction_to"], [edge["Station"], edge["Direction_to"]]])
-        p_graph = pd.DataFrame(p_graph, columns=['Begin station', 'End station', 'Stops on the way'])
-        extended_graph = create_P_graph(p_graph) 
+                on_the_way = [edge["Station"], edge["Direction_to"]]
+                l_graph_edges.append([edge["Station"], edge["Direction_to"], on_the_way])
+                matches = self.gdf.loc[stops == edge["Station"]]
+                # print(matches)
+                for id in matches.index:                #origin destination
+                    gdf.at[id, 'edges'].append(tuple(on_the_way))
+                    # self.gdf.at[id, 'edges'].append([on_the_way], {dictionary with attributes}) 
+        l_graph_edges = pd.DataFrame(l_graph_edges, columns=['Begin station', 'End station', 'Stops on the way'])
+        extended_graph = create_P_graph(l_graph_edges)
 
         passengers = edges.drop_duplicates("Station")["Getting_on_off"].to_list()
         extended_rail_map = Railmap(extended_stations.to_list(), extended_travel_times)
         extended_OD_matrix = extended_rail_map.determine_O_D(passengers, passengers)
         extended_network_routes = Matrix_To_Routes(extended_OD_matrix, extended_graph, extended_stations.to_list())
-        Visualisation_travelers(extended_graph, extended_network_routes, extended_OD_matrix, self.gdf)
+        passenger_data = Visualisation_travelers(extended_graph, extended_network_routes, extended_OD_matrix, self.gdf)
+
+        gdf_filter_extended = get_nodes(edges, self.gdf)
+        interactable_map(gdf_filter_extended, os.path.join("data", "extended_network.html"), extended_graph, passenger_data)
 
 
 if __name__ == "__main__":
@@ -100,7 +112,7 @@ if __name__ == "__main__":
     new_travel_times = pd.DataFrame({"travel_time_min": [13,8,14,13], 
                                      "from_station":["Groningen", "Drachten", "Heerenveen", "Emmeloord"], 
                                     "to_station": ["Drachten", "Heerenveen", "Emmeloord", "Lelystad Centrum"]})
-    # analysis.analyse_extended_network(additional_stations, new_travel_times)
+    analysis.analyse_extended_network(additional_stations, new_travel_times)
     
     # tests
     # print(analysis.gdf.head()) #GDF 
