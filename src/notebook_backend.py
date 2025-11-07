@@ -67,7 +67,7 @@ class Analyser:
         routes = Matrix_To_Routes(self.OD_matrix, self.graph, self.stations.to_list())
         passenger_data = Visualisation_travelers(self.graph, routes, self.OD_matrix, self.gdf)
         print(passenger_data)
-        interactable_map(self.gdf_filter, os.path.join("data", "original_network.html"), self.graph, passenger_data)
+        return interactable_map(self.gdf_filter, os.path.join("data", "original_network.html"), self.graph, passenger_data)
 
     def analyse_extended_network(self, extra_stations, new_travel_times:pd.DataFrame):
         extended_stations = pd.concat((self.stations, extra_stations["Station"]), ignore_index=True).drop_duplicates()
@@ -98,7 +98,7 @@ class Analyser:
         passenger_data = Visualisation_travelers(extended_graph, extended_network_routes, extended_OD_matrix, self.gdf)
 
         gdf_filter_extended = get_nodes(edges, self.gdf)
-        interactable_map(gdf_filter_extended, os.path.join("data", "extended_network.html"), extended_graph, passenger_data)
+        return interactable_map(gdf_filter_extended, os.path.join("data", "extended_network.html"), extended_graph, passenger_data)
 
     def show_shortest_path_table(self):
         # stations to filter

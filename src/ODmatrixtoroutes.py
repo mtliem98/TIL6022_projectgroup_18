@@ -48,13 +48,13 @@ def Visualisation_travelers(G, routes, OD_Matrix, locations):
         edge_width = [1 for _ in travelers]
 
     pos = {row['stop_name']: (row['stop_lon'], row['stop_lat']) for i, row in locations.iterrows()} # determining the node positions based on the station's longitude and latitude
-    plt.figure(figsize=(8,6))
-    nx.draw_networkx_nodes(G, pos, node_size=50, node_color = "lightblue")
-    nx.draw_networkx_labels(G, pos)
-    nx.draw_networkx_edges(G, pos, edgelist=segments, width=edge_width, edge_color="orange", arrows=False)
+    #plt.figure(figsize=(8,6))
+    #nx.draw_networkx_nodes(G, pos, node_size=50, node_color = "lightblue")
+    #nx.draw_networkx_labels(G, pos)
+    #nx.draw_networkx_edges(G, pos, edgelist=segments, width=edge_width, edge_color="orange", arrows=False)
 
-    plt.title("Network")
-    plt.axis("off")
+    #plt.title("Network")
+    #plt.axis("off")
     #plt.show()
     return travelers
 
