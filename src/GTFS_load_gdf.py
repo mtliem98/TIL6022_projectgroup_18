@@ -62,7 +62,7 @@ def nx_to_gdf(G):
     
     return gdf
 
-def interactable_map(data, savepath):
+def interactable_map(data, savepath, station_list:list = None, edges = None):
     #change these for size visual
     dim_w = 600
     dim_h = 500
@@ -97,13 +97,29 @@ def interactable_map(data, savepath):
                             dest_coords = (dest_station.iloc[0].geometry.y, dest_station.iloc[0].geometry.x)
                             
                             # Add the edge line
-                            folium.PolyLine(
-                                locations=[current_coords, dest_coords],
-                                color='red',
-                                weight=2,
-                                opacity=0.7,
-                                popup=f"Route: {origin} ↔ {destination}"
-                            ).add_to(m)
+                            #if you have color information, you should add that to the lines #TO DO
+                            if station_list != None and type(edges) != None:
+                                print(edge)
+                                print(list(nx.to_edgelist(station_list)))
+                                try:
+                                    passengers = edges[list(nx.to_edgelist(station_list)).index((edge[0],edge[1],{}))]
+                                except:
+                                    passengers = edges[list(nx.to_edgelist(station_list)).index((edge[1],edge[0],{}))]
+                                folium.PolyLine(
+                                    locations=[current_coords, dest_coords],
+                                    color='green',
+                                    weight=2,
+                                    opacity=0.7,
+                                    popup=f"Route: {origin} ↔ {destination} with {passengers} passengers in each direction"
+                                ).add_to(m)
+                            else:
+                                folium.PolyLine(
+                                    locations=[current_coords, dest_coords],
+                                    color='red',
+                                    weight=2,
+                                    opacity=0.7,
+                                    popup=f"Route: {origin} ↔ {destination}"
+                                ).add_to(m)
 
     m.save(savepath)
     print("----------------------------------------------------")
